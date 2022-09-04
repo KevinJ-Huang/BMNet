@@ -27,18 +27,28 @@ python create_txt.py
 
 ### 2. Training
 
+Firstly, we need to step into ColorTrans folder and train the subnetwork for color map restoration:
+
 ```python
-python train.py --opt options/train/train_Enhance_ISTD.yml or train_Enhance_SRD.yml
+python train.py --opt options/train/train_Enhance.yml
+```
+
+Then, save the .pth file and put the file path to the ConditionNet in the Enhance_arch.py in MainNet folder.
+
+Next, you can train the shadow removal network as:
+
+```python
+python train.py --opt options/train/train_Enhance_ISTD.yml or train_Enhance_SRD.yml or train_Enhance_ISTD.yml
 ```
 
 
 ### 3. Inference
 
 ```python
-python test.py --opt options/train/test_Enhance_ISTD.yml or test_Enhance_SRD.yml
+python test.py --opt options/train/test_Enhance_ISTD.yml or test_Enhance_SRD.yml or test_Enhance_ISTD.yml
 ```
 
-## Dataset (coming soon)
+## Dataset
 
 ISTD dataset/SRD dataset/AISTD dataset
 
