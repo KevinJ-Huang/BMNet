@@ -40,9 +40,17 @@ python eval.py
 
 ## Dataset (coming soon)
 
-ISTD dataset
+ISTD dataset/SRD dataset/AISTD dataset
 
-SRD dataset
+Please refer to previous project of shadow removal (see https://github.com/jinyeying/DC-ShadowNet-Hard-and-Soft-Shadow-Removal)
+
+## Our results
+
+Results on ISTD dataset (I have uploaded to)
+
+Results on SRD dataset (I have uploaded to)
+
+Results on AISTD dataset (I have uploaded to)
 
 
 ## Contact
