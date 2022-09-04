@@ -46,11 +46,11 @@ Please refer to previous project of shadow removal (see https://github.com/jinye
 
 ## Our results
 
-Results on ISTD dataset (I have uploaded to)
+Results on ISTD dataset (I have uploaded to https://drive.google.com/file/d/1cKRS26fgSOyIDqriD2fQFIcvyi2V8PIC/view?usp=sharing)
 
-Results on SRD dataset (I have uploaded to)
+Results on SRD dataset (I have uploaded to https://drive.google.com/file/d/1Evi9-MWigJHuEwUov0w4v-gQqmZF1NPV/view?usp=sharing)
 
-Results on AISTD dataset (I have uploaded to)
+Results on AISTD dataset (I have uploaded to https://drive.google.com/file/d/1rg_hjihxIw4ypeQsiUavTWQ3dXD01qGu/view?usp=sharing)
 
 
 ## Contact
