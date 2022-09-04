@@ -35,7 +35,7 @@ python train.py --opt options/train/train_Enhance_ISTD.yml or train_Enhance_SRD.
 ### 3. Inference
 
 ```python
-python eval.py 
+python test.py --opt options/train/test_Enhance_ISTD.yml or test_Enhance_SRD.yml
 ```
 
 ## Dataset (coming soon)
