@@ -112,7 +112,7 @@ def main():
         else:
             raise NotImplementedError('Phase [{:s}] is not recognized.'.format(phase))
 
-    assert train_loader is not None
+    #assert train_loader is not None
 
     #### create model
     model = create_model(opt)
@@ -135,65 +135,59 @@ def main():
     #### training
     logger.info('Start training from epoch: {:d}, iter: {:d}'.format(start_epoch, current_step))
 
-    for epoch in range(start_epoch, total_epochs + 2):
+    if opt['datasets'].get('val', None):
+        # pbar = util.ProgressBar(len(val_loader))
+        avg_psnr = 0.
+        idx = 0
+        for val_data in val_loader:
+            idx += 1
+            img_name = val_data['LQ_path'][0].split('/')[-1].split('.')[0]
+
+            model.feed_data(val_data)
+            model.test()
+
+            visuals = model.get_current_visuals()
+            en_img = util.tensor2img(visuals['rlt'])  # uint8
+            gt_img = util.tensor2img(visuals['GT'])  # uint8
+
+            # Save SR images for reference
+            #if epoch % opt['logger']['save_checkpoint_epoch'] == 0:
+            #img_dir = os.path.join(opt['path']['results_root'], 'experiments/STEN/val_images')
+            img_dir = opt['path']['results_root']
+            if not os.path.exists(img_dir):
+                util.mkdir(img_dir)
+            save_img_path = os.path.join(img_dir,'{:s}.png'.format(img_name))
+            util.save_img(en_img, save_img_path)
+
+            # calculate PSNR
+            psnr_inst = util.calculate_psnr(en_img, gt_img)
+            if math.isinf(psnr_inst) or math.isnan(psnr_inst):
+                psnr_inst = 0
+                idx -= 1
+
+            avg_psnr = avg_psnr + psnr_inst
+            if idx % 100 == 0:
+                print("Test the {} the image".format(idx))
+            # pbar.update('Test {}'.format(img_name))
+
+        # log
+        logger.info(
+            '# Validation # Average PSNR: {:.4e} Previous best Average PSNR: {:.4e} Previous best Average step: {}'.
+            format(avg_psnr / idx, best_psnr_avg, best_step_avg))
+    # for epoch in range(start_epoch, total_epochs + 2):
+    # #
+    #     total_psnr = 0
+    #     total_psnr_rev = 0
+    #     total_loss = 0
+    #     print_iter = 0
     #
-        total_psnr = 0
-        total_psnr_rev = 0
-        total_loss = 0
-        print_iter = 0
+    #         ##### valid test
 
-            ##### valid test
-        if opt['datasets'].get('val', None):
-            # pbar = util.ProgressBar(len(val_loader))
-            avg_psnr = 0.
-            idx = 0
-            for val_data in val_loader:
-                idx += 1
-                img_name = val_data['LQ_path'][0].split('/')[-1].split('.')[0]
-
-                model.feed_data(val_data)
-                model.test()
-
-                visuals = model.get_current_visuals()
-                en_img = util.tensor2img(visuals['rlt'])  # uint8
-                gt_img = util.tensor2img(visuals['GT'])  # uint8
-
-                # Save SR images for reference
-                if epoch % opt['logger']['save_checkpoint_epoch'] == 0:
-                    img_dir = os.path.join(opt['path']['root'], 'experiments/STEN/val_images', str(epoch))
-                    # img_dir = opt['path']['val_images']
-                    if not os.path.exists(img_dir):
-                        util.mkdir(img_dir)
-                    save_img_path = os.path.join(img_dir,
-                                                 '{:s}.png'.format(img_name))
-
-                    util.save_img(en_img, save_img_path)
-
-                # calculate PSNR
-                psnr_inst = util.calculate_psnr(en_img, gt_img)
-                if math.isinf(psnr_inst) or math.isnan(psnr_inst):
-                    psnr_inst = 0
-                    idx -= 1
-
-                avg_psnr = avg_psnr + psnr_inst
-                if idx % 100 == 0:
-                    print("Test the {} the image".format(idx))
-                # pbar.update('Test {}'.format(img_name))
-
-            # log
-            logger.info(
-                '# Validation # Average PSNR: {:.4e} Previous best Average PSNR: {:.4e} Previous best Average step: {}'.
-                format(avg_psnr / idx, best_psnr_avg, best_step_avg))
-            # tensorboard logger
-            # if opt['use_tb_logger'] and 'debug' not in opt['name']:
-            #     tb_logger.add_scalar('valid_psnr_low', avg_psnr_low, current_step)
-            #     tb_logger.add_scalar('valid_psnr_over', avg_psnr_over, current_step)
-      
 
     if rank <= 0:
         logger.info('Saving the final model.')
         model.save('latest')
-        logger.info('End of training.')
+        logger.info('End of testing.')
         # tb_logger.close()
 
 if __name__ == '__main__':
