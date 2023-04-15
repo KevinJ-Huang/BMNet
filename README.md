@@ -19,7 +19,21 @@ Overall, most parameters can be set in options/train/train_Enhance_ISTD.yml or o
 
 ### 1. Dataset Preparation
 
-Create a .txt file to put the path of the dataset using 
+1) Download datasets and set the following structure
+```
+|-- ISTD_Dataset
+    |-- train
+        |-- train_A # shadow image
+        |-- train_B # shadow mask
+        |-- train_C # shadow-free GT
+    |-- test
+        |-- test_A # shadow image
+        |-- test_B # shadow mask
+        |-- test_C # shadow-free GT
+```
+
+
+2)  Create xx_train.txt and xx_test.txt files and put them  in `BMNet/MainNet/data/`.  
 
 ```python
 python create_txt.py
@@ -44,8 +58,10 @@ python train.py --opt options/train/train_Enhance_ISTD.yml or train_Enhance_SRD.
 
 ### 3. Inference
 
+ You should modify the path of pre-training weights and run:
+
 ```python
-python test.py --opt options/train/test_Enhance_ISTD.yml or test_Enhance_SRD.yml or test_Enhance_ISTD.yml
+python eval.py --opt options/test/test_Enhance_ISTD.yml or test_Enhance_SRD.yml or test_Enhance_AISTD.yml
 ```
 
 ## Dataset
@@ -62,9 +78,9 @@ Results on SRD dataset (I have uploaded to https://drive.google.com/file/d/1Evi9
 
 Results on AISTD dataset (I have uploaded to https://drive.google.com/file/d/1rg_hjihxIw4ypeQsiUavTWQ3dXD01qGu/view?usp=sharing)
 
-## Pre-trained Weights
+##  Pre-trained Weights
 
-
+The pre-trained weights (ISTD, AISTD and SRD) have been uploaded in `BMNet/MainNet/pretrain/`.  
 
 ## Contact
 
