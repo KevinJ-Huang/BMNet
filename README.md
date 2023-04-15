@@ -1,6 +1,6 @@
 # BMNet
 
-CVPR 2022 (Official implementation of "Bijective Mapping Network for Shadow Removal")
+CVPR 2022 oral (Official implementation of  [Bijective Mapping Network for Shadow Removal](https://openaccess.thecvf.com/content/CVPR2022/papers/Zhu_Bijective_Mapping_Network_for_Shadow_Removal_CVPR_2022_paper.pdf).
 
 Yurui Zhu†, Jie Huang†, Xueyang Fu∗, Feng Zhao, Qibin Sun, Zheng-Jun Zha
 
